@@ -1,137 +1,587 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Women's Metabolic Health & Awareness Hub</title>
-    <style>
-        :root {
-            --primary: #8a4f7d;
-            --secondary: #e8d7e5;
-            --text: #333;
-            --light: #faf7f9;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: var(--text);
-            background-color: var(--light);
-        }
-        header {
-            background: linear-gradient(135deg, var(--primary), #5a3252);
-            color: white;
-            padding: 3rem 1rem;
-            text-align: center;
-        }
-        nav {
-            background: #fff;
-            padding: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        nav a {
-            margin: 0 15px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-        .btn {
-            background: var(--primary);
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn:hover { background: #713e66; }
-        /* Tracker Styles */
-        input[type="date"] {
-            padding: 0.5rem;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-right: 10px;
-        }
-        ul { list-style-type: none; padding: 0; }
-        li { background: var(--secondary); padding: 0.5rem; margin: 5px 0; border-radius: 4px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Balanced Axis | PCOS & Metabolic Health</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --plum:    #6b3a5e;
+      --rose:    #c2748a;
+      --blush:   #f2e4e8;
+      --cream:   #faf7f5;
+      --ink:     #1f1a1d;
+      --muted:   #6b6068;
+      --border:  #e4d8dc;
+      --white:   #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,247,245,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.9rem 2rem;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--plum); text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--plum); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh;
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+      gap: 3rem; padding: 5rem 2rem 4rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 600; line-height: 1.1;
+      color: var(--ink); margin-bottom: 1.5rem;
+    }
+    .hero h1 em { color: var(--plum); font-style: italic; }
+    .hero-desc {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 480px; margin-bottom: 2rem; line-height: 1.75;
+    }
+    .hero-cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--plum); color: var(--white);
+      padding: 0.75rem 1.6rem; border-radius: 4px;
+      font-size: 0.9rem; font-weight: 600;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #552f4b; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent; color: var(--plum);
+      padding: 0.75rem 1.6rem; border-radius: 4px;
+      font-size: 0.9rem; font-weight: 600;
+      text-decoration: none; border: 1.5px solid var(--plum);
+      cursor: pointer; transition: background 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { background: var(--blush); }
+
+    /* hero visual */
+    .hero-visual {
+      background: linear-gradient(145deg, var(--blush), #e8cdd6);
+      border-radius: 24px; min-height: 420px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1.2rem; padding: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-visual::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(107,58,94,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .stat-row { display: flex; gap: 1.5rem; }
+    .stat-card {
+      background: white; border-radius: 12px;
+      padding: 1.2rem 1.5rem; text-align: center;
+      box-shadow: 0 4px 20px rgba(107,58,94,0.1);
+      flex: 1;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 600; color: var(--plum);
+      display: block;
+    }
+    .stat-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+    .pill-tag {
+      background: white; border-radius: 20px;
+      padding: 0.5rem 1rem; font-size: 0.82rem;
+      color: var(--plum); font-weight: 600;
+      box-shadow: 0 2px 12px rgba(107,58,94,0.1);
+    }
+    .pill-row { display: flex; gap: 0.7rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 600; color: var(--ink);
+      margin-bottom: 1rem; line-height: 1.2;
+    }
+    .section-sub { color: var(--muted); max-width: 580px; line-height: 1.75; margin-bottom: 2.5rem; }
+
+    /* ── AWARENESS GRID ── */
+    .awareness-bg { background: var(--white); }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .info-card {
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.8rem; transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .info-card:hover { box-shadow: 0 6px 24px rgba(107,58,94,0.1); border-color: var(--rose); }
+    .card-icon { font-size: 1.6rem; margin-bottom: 0.8rem; display: block; }
+    .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--plum); }
+    .card-text { font-size: 0.92rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── RESEARCH ── */
+    .research-bg { background: var(--blush); }
+    .research-card {
+      background: white; border-radius: 16px;
+      padding: 2.5rem; border-left: 4px solid var(--plum);
+      box-shadow: 0 4px 20px rgba(107,58,94,0.08);
+    }
+    .research-tag {
+      display: inline-block; background: var(--blush);
+      color: var(--plum); font-size: 0.75rem; font-weight: 600;
+      padding: 0.3rem 0.8rem; border-radius: 20px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .research-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem; font-weight: 600; color: var(--ink);
+      margin-bottom: 0.8rem; line-height: 1.35;
+    }
+    .research-card p { font-size: 0.93rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
+    .authors { font-size: 0.82rem; color: var(--rose); font-weight: 600; margin-bottom: 1.5rem; }
+    .journal-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--cream); border-radius: 8px;
+      padding: 0.5rem 1rem; font-size: 0.8rem;
+      color: var(--muted); border: 1px solid var(--border);
+      font-weight: 500;
+    }
+    .dot-green { width: 7px; height: 7px; border-radius: 50%; background: #4caf84; display: inline-block; }
+
+    /* ── TRACKER ── */
+    .tracker-bg { background: var(--white); }
+    .tracker-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .tracker-box {
+      background: var(--cream); border-radius: 16px;
+      border: 1px solid var(--border); padding: 2rem;
+    }
+    .tracker-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600;
+      color: var(--plum); margin-bottom: 0.4rem;
+    }
+    .tracker-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .tracker-row { display: flex; gap: 0.8rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .date-input {
+      padding: 0.6rem 0.9rem; font-size: 0.9rem;
+      border: 1.5px solid var(--border); border-radius: 6px;
+      background: white; color: var(--ink);
+      font-family: 'Inter', sans-serif; flex: 1;
+      outline: none; transition: border-color 0.2s;
+    }
+    .date-input:focus { border-color: var(--rose); }
+    .log-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; max-height: 260px; overflow-y: auto; }
+    .log-item {
+      background: white; border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.6rem 0.9rem;
+      font-size: 0.88rem; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .log-item span { color: var(--muted); }
+    .log-date { font-weight: 600; color: var(--plum); }
+    .delete-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--border); font-size: 1rem;
+      transition: color 0.2s; padding: 0 0.2rem;
+    }
+    .delete-btn:hover { color: var(--rose); }
+    .empty-state { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.88rem; }
+    .cycle-insight {
+      background: linear-gradient(135deg, var(--blush), #e8d4db);
+      border-radius: 12px; padding: 1.2rem 1.5rem;
+      font-size: 0.88rem; color: var(--plum);
+      margin-top: 1rem; display: none;
+    }
+    .cycle-insight strong { display: block; margin-bottom: 0.3rem; }
+
+    /* ── BOOK ── */
+    .book-bg { background: linear-gradient(135deg, var(--plum) 0%, #3d1f35 100%); }
+    .book-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .book-bg .section-label { color: var(--rose); }
+    .book-bg .section-title { color: white; }
+    .book-bg .section-sub { color: rgba(255,255,255,0.7); }
+    .book-cover {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 3rem 2rem;
+      text-align: center; backdrop-filter: blur(4px);
+    }
+    .book-cover-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 600;
+      color: white; line-height: 1.3; margin-bottom: 0.6rem;
+    }
+    .book-cover-sub { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
+    .book-cover-badge {
+      display: inline-block; background: var(--rose);
+      color: white; padding: 0.4rem 1rem;
+      border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .waitlist-form { display: flex; flex-direction: column; gap: 0.9rem; }
+    .waitlist-form input[type="email"] {
+      padding: 0.75rem 1rem; border-radius: 6px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: white; font-family: 'Inter', sans-serif;
+      font-size: 0.92rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .waitlist-form input[type="email"]::placeholder { color: rgba(255,255,255,0.45); }
+    .waitlist-form input[type="email"]:focus { border-color: var(--rose); }
+    .waitlist-form .btn-primary { background: var(--rose); width: fit-content; }
+    .waitlist-form .btn-primary:hover { background: #b05c72; }
+    .privacy-note { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+    .success-msg { display: none; color: #a8e6c4; font-size: 0.9rem; font-weight: 500; }
+
+    /* ── ABOUT ── */
+    .about-bg { background: var(--cream); }
+    .about-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: start; }
+    .about-avatar {
+      width: 100%; aspect-ratio: 1;
+      border-radius: 16px;
+      background: linear-gradient(145deg, var(--blush), #d9b8c7);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; max-width: 220px;
+    }
+    .about-text h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600; color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .about-role { color: var(--rose); font-size: 0.9rem; font-weight: 600; margin-bottom: 1.2rem; }
+    .about-text p { color: var(--muted); line-height: 1.8; font-size: 0.95rem; margin-bottom: 1rem; }
+    .about-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.2rem; }
+    .link-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: white; border: 1px solid var(--border);
+      border-radius: 20px; padding: 0.45rem 1rem;
+      font-size: 0.8rem; font-weight: 600; color: var(--plum);
+      text-decoration: none; transition: background 0.2s, border-color 0.2s;
+    }
+    .link-pill:hover { background: var(--blush); border-color: var(--rose); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.5);
+      text-align: center; padding: 2rem;
+      font-size: 0.82rem;
+    }
+    footer a { color: var(--rose); text-decoration: none; }
+    footer strong { color: rgba(255,255,255,0.8); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0.9rem 1.2rem; }
+      .nav-links { gap: 1rem; }
+      .hero { grid-template-columns: 1fr; padding: 3rem 1.2rem 2rem; min-height: auto; gap: 2rem; }
+      .hero-visual { min-height: 280px; }
+      .tracker-layout, .book-layout, .about-layout { grid-template-columns: 1fr; }
+      section { padding: 3.5rem 1.2rem; }
+      .stat-row { gap: 0.8rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Empowering Women's Metabolic Health</h1>
-        <p>Science-backed insights into glucose, hormones, and wellness.</p>
-    </header>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">The Balanced Axis</a>
+  <ul class="nav-links">
+    <li><a href="#awareness">Learn</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#tracker">Tracker</a></li>
+    <li><a href="#book">Book</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
 
-    <nav>
-        <a href="#awareness">Awareness</a>
-        <a href="#tracker">Period Tracker</a>
-        <a href="#book">The Book</a>
-    </nav>
-
-    <div class="container">
-        <section id="awareness" class="card">
-            <h2>Why Metabolic Health Matters</h2>
-            <p>From PCOS to insulin resistance, metabolic health heavily influences the female reproductive cycle. Managing glucose spikes isn't just about weight—it's about hormonal harmony, energy stabilization, and long-term vitality.</p>
-            <p><em>Curated by a PhD Scholar in Computational Biology.</em></p>
-        </section>
-
-        <section id="tracker" class="card">
-            <h2>Hormonal Cycle Tracker</h2>
-            <p>Log your cycles securely. For your absolute privacy, data is stored <strong>locally on your device</strong> and is never sent to a server.</p>
-            <div style="margin-bottom: 15px;">
-                <input type="date" id="periodDate">
-                <button class="btn" onclick="logPeriod()">Log Cycle Start</button>
-            </div>
-            <h3>Your Logged Dates:</h3>
-            <ul id="logList"></ul>
-        </section>
-
-        <section id="book" class="card" style="border-left: 5px solid var(--primary);">
-            <h2>Upcoming Book Launch!</h2>
-            <p><strong>Decoding the Female Engine:</strong> A deep dive into metabolic networks, computational genomics data simplified, and practical hacks for daily hormonal alignment.</p>
-            <p>Want to be the first to get a free chapter preview?</p>
-            <a href="https://docs.google.com/forms/" target="_blank" class="btn">Join the Waitlist (Free)</a>
-        </section>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">PCOS · Metabolic Health · Reproductive Awareness</p>
+    <h1>Your hormones<br>aren't broken.<br><em>They need a map.</em></h1>
+    <p class="hero-desc">Science-backed insights on PCOS, glucose, and hormonal health — translated from computational biology research into everyday language.</p>
+    <div class="hero-cta-row">
+      <a href="#awareness" class="btn-primary">Start Learning</a>
+      <a href="#book" class="btn-ghost">Get Free Chapter</a>
     </div>
+  </div>
+  <div class="hero-visual">
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-num">1 in 8</span>
+        <span class="stat-label">Women with PCOS</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">70%</span>
+        <span class="stat-label">Undiagnosed</span>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill-tag">Insulin Resistance</span>
+      <span class="pill-tag">Hormonal Imbalance</span>
+      <span class="pill-tag">Inflammation</span>
+      <span class="pill-tag">Metabolic Syndrome</span>
+    </div>
+    <div class="stat-card" style="width:100%; text-align:left;">
+      <span style="font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; font-weight:600;">Did you know?</span>
+      <p style="font-size:0.9rem; color:var(--ink); margin-top:0.4rem; line-height:1.55;">PCOS manifests differently across ethnicities — metabolic dysfunction is more prominent in East Asian women, while inflammatory pathways dominate in European populations.</p>
+    </div>
+  </div>
+</div>
 
-    <script>
-        // Simple client-side storage functionality
-        document.addEventListener('DOMContentLoaded', displayDates);
+<!-- AWARENESS -->
+<section id="awareness" class="awareness-bg">
+  <div class="section-inner">
+    <p class="section-label">Why it matters</p>
+    <h2 class="section-title">Understanding your metabolic health</h2>
+    <p class="section-sub">PCOS is the most common endocrine disorder in women of reproductive age — yet it remains widely misunderstood. Here's what the science actually says.</p>
+    <div class="card-grid">
+      <div class="info-card">
+        <span class="card-icon">🔬</span>
+        <h3 class="card-title">Insulin & PCOS</h3>
+        <p class="card-text">Insulin resistance affects up to 80% of women with PCOS regardless of weight. Glucose spikes trigger androgen production, worsening symptoms from acne to irregular cycles.</p>
+      </div>
+      <div class="info-card">
+        <span class="card-icon">🧬</span>
+        <h3 class="card-title">The Genetic Layer</h3>
+        <p class="card-text">PCOS has a strong genetic basis. Key genes like ERBB3, DENND1A, and FSHR are implicated in follicular development, insulin signaling, and ovulatory function.</p>
+      </div>
+      <div class="info-card">
+        <span class="card-icon">🔥</span>
+        <h3 class="card-title">Chronic Inflammation</h3>
+        <p class="card-text">Low-grade systemic inflammation is a hallmark of PCOS. Inflammatory markers like NF-κB and cytokines disrupt hormonal balance and contribute to long-term metabolic risk.</p>
+      </div>
+      <div class="info-card">
+        <span class="card-icon">⚡</span>
+        <h3 class="card-title">Glucose & Hormones</h3>
+        <p class="card-text">Flattening post-meal glucose spikes — through diet, movement, and timing — can meaningfully improve LH/FSH ratios, reduce androgens, and restore cycle regularity.</p>
+      </div>
+      <div class="info-card">
+        <span class="card-icon">🧠</span>
+        <h3 class="card-title">The Brain–Ovary Axis</h3>
+        <p class="card-text">PCOS isn't just a reproductive condition. The hypothalamus–pituitary axis drives GnRH pulsatility, and disruptions here cascade into irregular ovulation and hormonal chaos.</p>
+      </div>
+      <div class="info-card">
+        <span class="card-icon">💊</span>
+        <h3 class="card-title">Beyond Metformin</h3>
+        <p class="card-text">Research into GLP-1 agonists, FSHR modulators, and drug repurposing from cancer biology is opening new, genetically-informed therapeutic avenues for PCOS.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        function logPeriod() {
-            const dateInput = document.getElementById('periodDate').value;
-            if (!dateInput) return alert('Please select a date');
-            
-            let dates = JSON.parse(localStorage.getItem('periodDates')) || [];
-            dates.push(dateInput);
-            dates.sort((a,b) => new Date(b) - new Date(a)); // Newest first
-            localStorage.setItem('periodDates', JSON.stringify(dates));
-            
-            displayDates();
-        }
+<!-- RESEARCH -->
+<section id="research" class="research-bg">
+  <div class="section-inner">
+    <p class="section-label">From the lab</p>
+    <h2 class="section-title">The research behind this work</h2>
+    <p class="section-sub">This platform is grounded in active computational biology research — not wellness opinion.</p>
+    <div class="research-card">
+      <span class="research-tag">Preprint · Under Review</span>
+      <h3>Evidence-based genetic variants to gene mapping and prioritization uncovers distinct molecular pathophysiology and therapeutic landscape in PCOS patients of different ethnicities</h3>
+      <p class="authors">Sindhuja Rajavelu, Debojyoti De — NIT Durgapur</p>
+      <p>An integrative population-aware computational framework maps non-coding PCOS-associated genetic variants to effector genes across East Asian and European populations. The study reveals that metabolic dysregulation dominates EAS PCOS while inflammatory and immune pathways characterize EUR PCOS — with implications for precision, population-specific therapy.</p>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
+        <span class="journal-badge"><span class="dot-green"></span> npj Systems Biology &amp; Applications</span>
+        <a href="https://www.researchsquare.com/article/rs-8610143/v1" target="_blank" class="btn-ghost" style="font-size:0.82rem; padding:0.5rem 1rem;">Read Preprint →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-        function displayDates() {
-            const list = document.getElementById('logList');
-            let dates = JSON.parse(localStorage.getItem('periodDates')) || [];
-            list.innerHTML = dates.map(d => `<li>🩸 Cycle started on: <strong>${d}</strong></li>`).join('');
-        }
-    </script>
+<!-- TRACKER -->
+<section id="tracker" class="tracker-bg">
+  <div class="section-inner">
+    <p class="section-label">Personal tool</p>
+    <h2 class="section-title">Cycle & symptom tracker</h2>
+    <p class="section-sub">Log your menstrual cycle locally. Your data never leaves your device — it's stored in your browser only.</p>
+    <div class="tracker-layout">
+      <div class="tracker-box">
+        <h3>Log a cycle</h3>
+        <p class="tracker-note">🔒 100% private — stored on your device only</p>
+        <div class="tracker-row">
+          <input type="date" id="periodDate" class="date-input">
+          <button class="btn-primary" onclick="logPeriod()">Log</button>
+        </div>
+        <div class="cycle-insight" id="cycleInsight">
+          <strong>📊 Cycle insight</strong>
+          <span id="insightText"></span>
+        </div>
+      </div>
+      <div class="tracker-box">
+        <h3>Your logged dates</h3>
+        <p class="tracker-note">Sorted newest first</p>
+        <ul class="log-list" id="logList">
+          <li class="empty-state log-empty">No cycles logged yet.<br>Add your first date to begin.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section id="book" class="book-bg">
+  <div class="section-inner">
+    <div class="book-layout">
+      <div>
+        <p class="section-label">Upcoming release</p>
+        <h2 class="section-title">Decoding the Female Engine</h2>
+        <p class="section-sub">Metabolic networks, PCOS genomics, and practical daily hacks — translated from a PhD thesis into a book you can actually use.</p>
+        <div class="waitlist-form">
+          <input type="email" id="waitlistEmail" placeholder="your@email.com">
+          <button class="btn-primary" onclick="joinWaitlist()">Get a free chapter preview →</button>
+          <p class="privacy-note">No spam. Unsubscribe any time.</p>
+          <p class="success-msg" id="successMsg">✓ You're on the list! We'll be in touch.</p>
+        </div>
+      </div>
+      <div class="book-cover">
+        <div style="font-size:3rem; margin-bottom:1rem;">📖</div>
+        <div class="book-cover-title">Decoding the<br>Female Engine</div>
+        <div class="book-cover-sub">by Sindhuja Rajavelu<br>PhD Candidate, Biotechnology</div>
+        <span class="book-cover-badge">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-bg">
+  <div class="section-inner">
+    <p class="section-label">Who is behind this</p>
+    <h2 class="section-title">About Sindhuja</h2>
+    <div class="about-layout">
+      <div class="about-avatar">🧬</div>
+      <div class="about-text">
+        <h3>Sindhuja Rajavelu</h3>
+        <p class="about-role">PhD Candidate, Biotechnology · NIT Durgapur · Computational &amp; Translational Biology</p>
+        <p>I study PCOS from the inside out — using GWAS data, regulatory genomics, and protein interaction networks to understand why this condition looks so different across populations and what we can actually do about it.</p>
+        <p>This platform is my attempt to bridge the gap between what the science knows and what patients hear. The goal: give women the metabolic and hormonal literacy they deserve, backed by real research.</p>
+        <div class="about-links">
+          <a href="https://github.com/SR-BioInSilico" target="_blank" class="link-pill">⚙️ GitHub</a>
+          <a href="https://www.researchsquare.com/article/rs-8610143/v1" target="_blank" class="link-pill">📄 Preprint</a>
+          <a href="https://www.linkedin.com/in/sindhuja-rajavelu-b4b969102" target="_blank" class="link-pill">🔗 LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>The Balanced Axis</strong> · Created by <a href="https://github.com/SR-BioInSilico">Sindhuja Rajavelu</a> · PCOS &amp; Metabolic Health Awareness</p>
+  <p style="margin-top:0.5rem;">Not medical advice. Always consult your healthcare provider.</p>
+</footer>
+
+<script>
+  // ── TRACKER ──
+  document.addEventListener('DOMContentLoaded', displayDates);
+
+  function logPeriod() {
+    const val = document.getElementById('periodDate').value;
+    if (!val) return alert('Please select a date.');
+    let dates = getDates();
+    if (dates.includes(val)) return alert('This date is already logged.');
+    dates.push(val);
+    dates.sort((a, b) => new Date(b) - new Date(a));
+    localStorage.setItem('periodDates', JSON.stringify(dates));
+    displayDates();
+    showCycleInsight(dates);
+  }
+
+  function deletePeriod(date) {
+    let dates = getDates().filter(d => d !== date);
+    localStorage.setItem('periodDates', JSON.stringify(dates));
+    displayDates();
+    if (dates.length >= 2) showCycleInsight(dates);
+    else document.getElementById('cycleInsight').style.display = 'none';
+  }
+
+  function getDates() {
+    return JSON.parse(localStorage.getItem('periodDates')) || [];
+  }
+
+  function displayDates() {
+    const list = document.getElementById('logList');
+    const dates = getDates();
+    if (!dates.length) {
+      list.innerHTML = '<li class="empty-state log-empty">No cycles logged yet.<br>Add your first date to begin.</li>';
+      return;
+    }
+    list.innerHTML = dates.map(d => {
+      const formatted = new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+      return `<li class="log-item">
+        <span>🩸 <span class="log-date">${formatted}</span></span>
+        <button class="delete-btn" onclick="deletePeriod('${d}')" title="Remove">✕</button>
+      </li>`;
+    }).join('');
+  }
+
+  function showCycleInsight(dates) {
+    if (dates.length < 2) return;
+    const d1 = new Date(dates[0] + 'T00:00:00');
+    const d2 = new Date(dates[1] + 'T00:00:00');
+    const diff = Math.round(Math.abs(d1 - d2) / (1000 * 60 * 60 * 24));
+    let msg = `Your last cycle gap: <strong>${diff} days</strong>.`;
+    if (diff < 21) msg += ' Shorter than typical (21–35 days) — worth tracking further.';
+    else if (diff > 35) msg += ' Longer than typical (21–35 days) — common in PCOS. Keep logging for patterns.';
+    else msg += ' Within typical range (21–35 days). ✓';
+    document.getElementById('insightText').innerHTML = ' ' + msg;
+    document.getElementById('cycleInsight').style.display = 'block';
+  }
+
+  // ── WAITLIST ──
+  function joinWaitlist() {
+    const email = document.getElementById('waitlistEmail').value.trim();
+    if (!email || !email.includes('@')) return alert('Please enter a valid email.');
+    // Store locally as placeholder (no backend)
+    let list = JSON.parse(localStorage.getItem('waitlistEmails')) || [];
+    if (!list.includes(email)) { list.push(email); localStorage.setItem('waitlistEmails', JSON.stringify(list)); }
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('waitlistEmail').value = '';
+    document.getElementById('waitlistEmail').disabled = true;
+  }
+</script>
 </body>
 </html>
