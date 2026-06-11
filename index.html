@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women's Metabolic Health & Awareness Hub</title>
+    <style>
+        :root {
+            --primary: #8a4f7d;
+            --secondary: #e8d7e5;
+            --text: #333;
+            --light: #faf7f9;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-color: var(--light);
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), #5a3252);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        nav {
+            background: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { background: #713e66; }
+        /* Tracker Styles */
+        input[type="date"] {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        ul { list-style-type: none; padding: 0; }
+        li { background: var(--secondary); padding: 0.5rem; margin: 5px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Empowering Women's Metabolic Health</h1>
+        <p>Science-backed insights into glucose, hormones, and wellness.</p>
+    </header>
+
+    <nav>
+        <a href="#awareness">Awareness</a>
+        <a href="#tracker">Period Tracker</a>
+        <a href="#book">The Book</a>
+    </nav>
+
+    <div class="container">
+        <section id="awareness" class="card">
+            <h2>Why Metabolic Health Matters</h2>
+            <p>From PCOS to insulin resistance, metabolic health heavily influences the female reproductive cycle. Managing glucose spikes isn't just about weight—it's about hormonal harmony, energy stabilization, and long-term vitality.</p>
+            <p><em>Curated by a PhD Scholar in Computational Biology.</em></p>
+        </section>
+
+        <section id="tracker" class="card">
+            <h2>Hormonal Cycle Tracker</h2>
+            <p>Log your cycles securely. For your absolute privacy, data is stored <strong>locally on your device</strong> and is never sent to a server.</p>
+            <div style="margin-bottom: 15px;">
+                <input type="date" id="periodDate">
+                <button class="btn" onclick="logPeriod()">Log Cycle Start</button>
+            </div>
+            <h3>Your Logged Dates:</h3>
+            <ul id="logList"></ul>
+        </section>
+
+        <section id="book" class="card" style="border-left: 5px solid var(--primary);">
+            <h2>Upcoming Book Launch!</h2>
+            <p><strong>Decoding the Female Engine:</strong> A deep dive into metabolic networks, computational genomics data simplified, and practical hacks for daily hormonal alignment.</p>
+            <p>Want to be the first to get a free chapter preview?</p>
+            <a href="https://docs.google.com/forms/" target="_blank" class="btn">Join the Waitlist (Free)</a>
+        </section>
+    </div>
+
+    <script>
+        // Simple client-side storage functionality
+        document.addEventListener('DOMContentLoaded', displayDates);
+
+        function logPeriod() {
+            const dateInput = document.getElementById('periodDate').value;
+            if (!dateInput) return alert('Please select a date');
+            
+            let dates = JSON.parse(localStorage.getItem('periodDates')) || [];
+            dates.push(dateInput);
+            dates.sort((a,b) => new Date(b) - new Date(a)); // Newest first
+            localStorage.setItem('periodDates', JSON.stringify(dates));
+            
+            displayDates();
+        }
+
+        function displayDates() {
+            const list = document.getElementById('logList');
+            let dates = JSON.parse(localStorage.getItem('periodDates')) || [];
+            list.innerHTML = dates.map(d => `<li>🩸 Cycle started on: <strong>${d}</strong></li>`).join('');
+        }
+    </script>
+</body>
+</html>
