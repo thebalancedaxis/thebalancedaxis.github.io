@@ -185,8 +185,6 @@
     .feed-journal { font-size: 0.75rem; color: var(--muted); font-style: italic; margin-top: auto; }
     .feed-loading { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
     .feed-error { background: white; border-radius: 12px; padding: 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; border: 1px dashed var(--border); }
-    .feed-keyword-strip { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-    .kw-tag { background: var(--plum); color: white; font-size: 0.7rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 12px; letter-spacing: 0.06em; }
 
 
 
@@ -369,24 +367,20 @@
 <section id="research" class="news-bg">
   <div class="section-inner">
     <p class="section-label">Latest science</p>
-    <h2 class="section-title">Recent research in PCOS &amp; metabolic health</h2>
-    <p class="section-sub">Live feed from PubMed — peer-reviewed articles on PCOS, polycystic ovary syndrome, insulin resistance, and women's endocrine health.</p>
-    <div class="feed-keyword-strip">
-      <span class="kw-tag">PCOS</span>
-      <span class="kw-tag">Polycystic Ovary Syndrome</span>
-      <span class="kw-tag">Insulin Resistance</span>
-      <span class="kw-tag">Women's Metabolic Health</span>
-      <span class="kw-tag">Endocrine</span>
-    </div>
+    <h2 class="section-title">Science news — women's health &amp; metabolism</h2>
+    <p class="section-sub">Live feed from ScienceDaily — updated hourly from peer-reviewed research.</p>
     <div class="feed-source-tabs">
-      <button class="feed-tab active" onclick="switchTopic('pcos', this)">PCOS</button>
-      <button class="feed-tab" onclick="switchTopic('insulin+resistance+women', this)">Insulin Resistance</button>
-      <button class="feed-tab" onclick="switchTopic('metabolic+syndrome+women+hormones', this)">Metabolic &amp; Hormones</button>
-      <button class="feed-tab" onclick="switchTopic('endocrine+disorders+women+reproductive', this)">Endocrine</button>
+      <button class="feed-tab active" onclick="switchFeed('womens_health', this)">Women's Health</button>
+      <button class="feed-tab" onclick="switchFeed('hormone_disorders', this)">Hormones</button>
+      <button class="feed-tab" onclick="switchFeed('fertility', this)">Fertility</button>
+      <button class="feed-tab" onclick="switchFeed('diabetes', this)">Diabetes &amp; Insulin</button>
+      <button class="feed-tab" onclick="switchFeed('obesity', this)">Obesity &amp; Metabolism</button>
+      <button class="feed-tab" onclick="switchFeed('gynecology', this)">Gynecology</button>
     </div>
     <div class="feed-grid" id="feedGrid">
       <div class="feed-loading">⏳ Loading latest articles…</div>
     </div>
+    <p style="font-size:0.75rem; color:var(--muted); margin-top:1.5rem;">Source: <a href="https://www.sciencedaily.com" target="_blank" style="color:var(--rose);">ScienceDaily</a> · Updated hourly · Covers peer-reviewed research</p>
   </div>
 </section>
 
@@ -444,54 +438,49 @@
 </footer>
 
 <script>
-  // ── PUBMED FEED ──
-  let currentTopic = 'pcos';
+  // ── SCIENCEDAILY RSS FEED via rss2json ──
+  const SD_BASE = 'https://www.sciencedaily.com/rss/health_medicine/';
+  const FEEDS = {
+    womens_health:    SD_BASE + "women's_health.xml",
+    hormone_disorders: SD_BASE + 'hormone_disorders.xml',
+    fertility:        SD_BASE + 'fertility.xml',
+    diabetes:         SD_BASE + 'diabetes.xml',
+    obesity:          SD_BASE + 'obesity.xml',
+    gynecology:       SD_BASE + 'gynecology.xml',
+  };
 
-  async function fetchPubMed(query) {
+  async function switchFeed(key, btn) {
+    document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    await loadFeed(key);
+  }
+
+  async function loadFeed(key) {
     const grid = document.getElementById('feedGrid');
     grid.innerHTML = '<div class="feed-loading">⏳ Loading latest articles…</div>';
+    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEEDS[key]) + '&count=12';
     try {
-      // Step 1: search for IDs
-      const searchUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURIComponent(query)}&retmax=12&sort=date&retmode=json`;
-      const searchRes = await fetch(searchUrl);
-      const searchData = await searchRes.json();
-      const ids = searchData.esearchresult?.idlist || [];
-      if (!ids.length) { grid.innerHTML = '<div class="feed-error">No recent articles found for this topic.</div>'; return; }
-
-      // Step 2: fetch summaries
-      const summaryUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids.join(',')}&retmode=json`;
-      const summaryRes = await fetch(summaryUrl);
-      const summaryData = await summaryRes.json();
-      const results = summaryData.result;
-
-      grid.innerHTML = ids.map(id => {
-        const art = results[id];
-        if (!art) return '';
-        const title = art.title || 'Untitled';
-        const authors = art.authors?.slice(0,3).map(a => a.name).join(', ') + (art.authors?.length > 3 ? ' et al.' : '');
-        const journal = art.fulljournalname || art.source || '';
-        const date = art.pubdate || '';
-        const link = `https://pubmed.ncbi.nlm.nih.gov/${id}/`;
-        return `<a class="feed-card" href="${link}" target="_blank" rel="noopener">
-          <span class="feed-source-badge">PubMed · ${date}</span>
-          <div class="feed-title">${title}</div>
-          ${authors ? `<div class="feed-authors">${authors}</div>` : ''}
-          <div class="feed-journal">${journal}</div>
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.status !== 'ok' || !data.items?.length) {
+        grid.innerHTML = '<div class="feed-error">No articles found right now. Try another category.</div>';
+        return;
+      }
+      grid.innerHTML = data.items.map(item => {
+        const desc = (item.description || '').replace(/<[^>]+>/g, '').trim().slice(0, 160);
+        const date = item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '';
+        return `<a class="feed-card" href="${item.link}" target="_blank" rel="noopener">
+          <span class="feed-source-badge">ScienceDaily · ${date}</span>
+          <div class="feed-title">${item.title}</div>
+          ${desc ? `<div class="feed-desc">${desc}…</div>` : ''}
         </a>`;
       }).join('');
-    } catch(e) {
-      grid.innerHTML = '<div class="feed-error">Could not load articles. Please check your connection and try again.</div>';
+    } catch {
+      grid.innerHTML = '<div class="feed-error">Could not load feed. Please check your connection.</div>';
     }
   }
 
-  function switchTopic(topic, btn) {
-    currentTopic = topic;
-    document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    fetchPubMed(topic);
-  }
-
-  document.addEventListener('DOMContentLoaded', () => fetchPubMed('polycystic+ovary+syndrome'));
+  document.addEventListener('DOMContentLoaded', () => loadFeed('womens_health'));
 
   // ── WAITLIST ──
   function joinWaitlist() {
