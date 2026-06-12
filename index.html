@@ -158,81 +158,36 @@
     .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--plum); }
     .card-text { font-size: 0.92rem; color: var(--muted); line-height: 1.7; }
 
-    /* ── RESEARCH ── */
-    .research-bg { background: var(--blush); }
-    .research-card {
-      background: white; border-radius: 16px;
-      padding: 2.5rem; border-left: 4px solid var(--plum);
-      box-shadow: 0 4px 20px rgba(107,58,94,0.08);
+    /* ── NEWS FEED ── */
+    .news-bg { background: var(--blush); }
+    .feed-source-tabs { display: flex; gap: 0.6rem; margin-bottom: 1.8rem; flex-wrap: wrap; }
+    .feed-tab {
+      padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid var(--border);
+      background: white; color: var(--muted); transition: all 0.2s;
     }
-    .research-tag {
-      display: inline-block; background: var(--blush);
-      color: var(--plum); font-size: 0.75rem; font-weight: 600;
-      padding: 0.3rem 0.8rem; border-radius: 20px;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 1rem;
+    .feed-tab.active { background: var(--plum); color: white; border-color: var(--plum); }
+    .feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.2rem; }
+    .feed-card {
+      background: white; border-radius: 12px; padding: 1.4rem;
+      border: 1px solid var(--border); transition: box-shadow 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column; gap: 0.6rem;
+      text-decoration: none; color: inherit;
     }
-    .research-card h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem; font-weight: 600; color: var(--ink);
-      margin-bottom: 0.8rem; line-height: 1.35;
+    .feed-card:hover { box-shadow: 0 6px 24px rgba(107,58,94,0.1); border-color: var(--rose); }
+    .feed-source-badge {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--rose);
     }
-    .research-card p { font-size: 0.93rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
-    .authors { font-size: 0.82rem; color: var(--rose); font-weight: 600; margin-bottom: 1.5rem; }
-    .journal-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--cream); border-radius: 8px;
-      padding: 0.5rem 1rem; font-size: 0.8rem;
-      color: var(--muted); border: 1px solid var(--border);
-      font-weight: 500;
-    }
-    .dot-green { width: 7px; height: 7px; border-radius: 50%; background: #4caf84; display: inline-block; }
+    .feed-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--ink); line-height: 1.35; }
+    .feed-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .feed-date { font-size: 0.75rem; color: var(--border); margin-top: auto; }
+    .feed-loading { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
+    .feed-error { background: white; border-radius: 12px; padding: 1.5rem; text-align: center; color: var(--muted); font-size: 0.88rem; border: 1px dashed var(--border); }
+    .feed-keyword-strip { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .kw-tag { background: var(--plum); color: white; font-size: 0.7rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 12px; letter-spacing: 0.06em; }
 
-    /* ── TRACKER ── */
-    .tracker-bg { background: var(--white); }
-    .tracker-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-    .tracker-box {
-      background: var(--cream); border-radius: 16px;
-      border: 1px solid var(--border); padding: 2rem;
-    }
-    .tracker-box h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem; font-weight: 600;
-      color: var(--plum); margin-bottom: 0.4rem;
-    }
-    .tracker-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
-    .tracker-row { display: flex; gap: 0.8rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
-    .date-input {
-      padding: 0.6rem 0.9rem; font-size: 0.9rem;
-      border: 1.5px solid var(--border); border-radius: 6px;
-      background: white; color: var(--ink);
-      font-family: 'Inter', sans-serif; flex: 1;
-      outline: none; transition: border-color 0.2s;
-    }
-    .date-input:focus { border-color: var(--rose); }
-    .log-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; max-height: 260px; overflow-y: auto; }
-    .log-item {
-      background: white; border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.6rem 0.9rem;
-      font-size: 0.88rem; display: flex;
-      justify-content: space-between; align-items: center;
-    }
-    .log-item span { color: var(--muted); }
-    .log-date { font-weight: 600; color: var(--plum); }
-    .delete-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--border); font-size: 1rem;
-      transition: color 0.2s; padding: 0 0.2rem;
-    }
-    .delete-btn:hover { color: var(--rose); }
-    .empty-state { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.88rem; }
-    .cycle-insight {
-      background: linear-gradient(135deg, var(--blush), #e8d4db);
-      border-radius: 12px; padding: 1.2rem 1.5rem;
-      font-size: 0.88rem; color: var(--plum);
-      margin-top: 1rem; display: none;
-    }
-    .cycle-insight strong { display: block; margin-bottom: 0.3rem; }
+
 
     /* ── BOOK ── */
     .book-bg { background: linear-gradient(135deg, var(--plum) 0%, #3d1f35 100%); }
@@ -329,8 +284,7 @@
   <a href="#" class="nav-logo">The Balanced Axis</a>
   <ul class="nav-links">
     <li><a href="#awareness">Learn</a></li>
-    <li><a href="#research">Research</a></li>
-    <li><a href="#tracker">Tracker</a></li>
+    <li><a href="#research">News</a></li>
     <li><a href="#book">Book</a></li>
     <li><a href="#about">About</a></li>
   </ul>
@@ -344,7 +298,6 @@
     <p class="hero-desc">Science-backed insights on PCOS, glucose, and hormonal health — translated from computational biology research into everyday language.</p>
     <div class="hero-cta-row">
       <a href="#awareness" class="btn-primary">Start Learning</a>
-      <a href="#book" class="btn-ghost">Get Free Chapter</a>
     </div>
   </div>
   <div class="hero-visual">
@@ -412,51 +365,27 @@
   </div>
 </section>
 
-<!-- RESEARCH -->
-<section id="research" class="research-bg">
+<!-- NEWS FEED -->
+<section id="research" class="news-bg">
   <div class="section-inner">
-    <p class="section-label">From the lab</p>
-    <h2 class="section-title">The research behind this work</h2>
-    <p class="section-sub">This platform is grounded in active computational biology research — not wellness opinion.</p>
-    <div class="research-card">
-      <span class="research-tag">Preprint · Under Review</span>
-      <h3>Evidence-based genetic variants to gene mapping and prioritization uncovers distinct molecular pathophysiology and therapeutic landscape in PCOS patients of different ethnicities</h3>
-      <p class="authors">Sindhuja Rajavelu, Debojyoti De — NIT Durgapur</p>
-      <p>An integrative population-aware computational framework maps non-coding PCOS-associated genetic variants to effector genes across East Asian and European populations. The study reveals that metabolic dysregulation dominates EAS PCOS while inflammatory and immune pathways characterize EUR PCOS — with implications for precision, population-specific therapy.</p>
-      <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
-        <span class="journal-badge"><span class="dot-green"></span> npj Systems Biology &amp; Applications</span>
-        <a href="https://www.researchsquare.com/article/rs-8610143/v1" target="_blank" class="btn-ghost" style="font-size:0.82rem; padding:0.5rem 1rem;">Read Preprint →</a>
-      </div>
+    <p class="section-label">Latest science</p>
+    <h2 class="section-title">News from Nature &amp; Science</h2>
+    <p class="section-sub">Live feed filtered for PCOS, women's metabolic health, endocrine, and insulin research.</p>
+    <div class="feed-keyword-strip">
+      <span class="kw-tag">PCOS</span>
+      <span class="kw-tag">Women's Health</span>
+      <span class="kw-tag">Metabolic</span>
+      <span class="kw-tag">Endocrine</span>
+      <span class="kw-tag">Insulin</span>
+      <span class="kw-tag">Metabolism</span>
     </div>
-  </div>
-</section>
-
-<!-- TRACKER -->
-<section id="tracker" class="tracker-bg">
-  <div class="section-inner">
-    <p class="section-label">Personal tool</p>
-    <h2 class="section-title">Cycle & symptom tracker</h2>
-    <p class="section-sub">Log your menstrual cycle locally. Your data never leaves your device — it's stored in your browser only.</p>
-    <div class="tracker-layout">
-      <div class="tracker-box">
-        <h3>Log a cycle</h3>
-        <p class="tracker-note">🔒 100% private — stored on your device only</p>
-        <div class="tracker-row">
-          <input type="date" id="periodDate" class="date-input">
-          <button class="btn-primary" onclick="logPeriod()">Log</button>
-        </div>
-        <div class="cycle-insight" id="cycleInsight">
-          <strong>📊 Cycle insight</strong>
-          <span id="insightText"></span>
-        </div>
-      </div>
-      <div class="tracker-box">
-        <h3>Your logged dates</h3>
-        <p class="tracker-note">Sorted newest first</p>
-        <ul class="log-list" id="logList">
-          <li class="empty-state log-empty">No cycles logged yet.<br>Add your first date to begin.</li>
-        </ul>
-      </div>
+    <div class="feed-source-tabs">
+      <button class="feed-tab active" onclick="switchFeed('all', this)">All</button>
+      <button class="feed-tab" onclick="switchFeed('nature', this)">Nature</button>
+      <button class="feed-tab" onclick="switchFeed('science', this)">Science</button>
+    </div>
+    <div class="feed-grid" id="feedGrid">
+      <div class="feed-loading">⏳ Loading latest articles…</div>
     </div>
   </div>
 </section>
@@ -515,61 +444,72 @@
 </footer>
 
 <script>
-  // ── TRACKER ──
-  document.addEventListener('DOMContentLoaded', displayDates);
+  // ── NEWS FEED ──
+  const KEYWORDS = ['pcos','polycystic','women','metabolic','endocrine','insulin','metabolism','hormone','ovary','reproductive'];
+  const FEEDS = {
+    nature: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.nature.com%2Fnews.rss&count=40',
+    science: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.science.org%2Frss%2Fnews_current.xml&count=40'
+  };
 
-  function logPeriod() {
-    const val = document.getElementById('periodDate').value;
-    if (!val) return alert('Please select a date.');
-    let dates = getDates();
-    if (dates.includes(val)) return alert('This date is already logged.');
-    dates.push(val);
-    dates.sort((a, b) => new Date(b) - new Date(a));
-    localStorage.setItem('periodDates', JSON.stringify(dates));
-    displayDates();
-    showCycleInsight(dates);
+  let allArticles = { nature: [], science: [] };
+  let currentFilter = 'all';
+
+  function matchesKeyword(item) {
+    const text = ((item.title || '') + ' ' + (item.description || '') + ' ' + (item.categories || []).join(' ')).toLowerCase();
+    return KEYWORDS.some(k => text.includes(k));
   }
 
-  function deletePeriod(date) {
-    let dates = getDates().filter(d => d !== date);
-    localStorage.setItem('periodDates', JSON.stringify(dates));
-    displayDates();
-    if (dates.length >= 2) showCycleInsight(dates);
-    else document.getElementById('cycleInsight').style.display = 'none';
+  async function fetchFeed(source) {
+    try {
+      const res = await fetch(FEEDS[source]);
+      const data = await res.json();
+      if (data.status !== 'ok') return [];
+      return (data.items || []).filter(matchesKeyword).map(item => ({ ...item, _source: source }));
+    } catch { return []; }
   }
 
-  function getDates() {
-    return JSON.parse(localStorage.getItem('periodDates')) || [];
+  async function loadFeeds() {
+    const [nature, science] = await Promise.all([fetchFeed('nature'), fetchFeed('science')]);
+    allArticles.nature = nature;
+    allArticles.science = science;
+    renderFeed('all');
   }
 
-  function displayDates() {
-    const list = document.getElementById('logList');
-    const dates = getDates();
-    if (!dates.length) {
-      list.innerHTML = '<li class="empty-state log-empty">No cycles logged yet.<br>Add your first date to begin.</li>';
+  function switchFeed(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderFeed(filter);
+  }
+
+  function renderFeed(filter) {
+    const grid = document.getElementById('feedGrid');
+    let items = [];
+    if (filter === 'all') items = [...allArticles.nature, ...allArticles.science];
+    else items = allArticles[filter] || [];
+
+    // sort by date desc
+    items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+    if (!items.length) {
+      grid.innerHTML = `<div class="feed-error">No matching articles found right now.<br>Try checking back later — feeds refresh each visit.</div>`;
       return;
     }
-    list.innerHTML = dates.map(d => {
-      const formatted = new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
-      return `<li class="log-item">
-        <span>🩸 <span class="log-date">${formatted}</span></span>
-        <button class="delete-btn" onclick="deletePeriod('${d}')" title="Remove">✕</button>
-      </li>`;
+
+    grid.innerHTML = items.slice(0, 12).map(item => {
+      const srcLabel = item._source === 'nature' ? 'Nature' : 'Science';
+      const date = item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '';
+      const desc = (item.description || '').replace(/<[^>]+>/g, '').trim();
+      return `<a class="feed-card" href="${item.link}" target="_blank" rel="noopener">
+        <span class="feed-source-badge">${srcLabel}</span>
+        <div class="feed-title">${item.title || 'Untitled'}</div>
+        ${desc ? `<div class="feed-desc">${desc}</div>` : ''}
+        <div class="feed-date">${date}</div>
+      </a>`;
     }).join('');
   }
 
-  function showCycleInsight(dates) {
-    if (dates.length < 2) return;
-    const d1 = new Date(dates[0] + 'T00:00:00');
-    const d2 = new Date(dates[1] + 'T00:00:00');
-    const diff = Math.round(Math.abs(d1 - d2) / (1000 * 60 * 60 * 24));
-    let msg = `Your last cycle gap: <strong>${diff} days</strong>.`;
-    if (diff < 21) msg += ' Shorter than typical (21–35 days) — worth tracking further.';
-    else if (diff > 35) msg += ' Longer than typical (21–35 days) — common in PCOS. Keep logging for patterns.';
-    else msg += ' Within typical range (21–35 days). ✓';
-    document.getElementById('insightText').innerHTML = ' ' + msg;
-    document.getElementById('cycleInsight').style.display = 'block';
-  }
+  document.addEventListener('DOMContentLoaded', loadFeeds);
 
   // ── WAITLIST ──
   function joinWaitlist() {
