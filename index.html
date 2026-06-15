@@ -497,7 +497,7 @@
     try {
       const parser = new DOMParser();
       const xml = parser.parseFromString(xmlText, 'text/xml');
-      const items = Array.from(xml.querySelectorAll('item')).slice(0, 12);
+      const items = Array.from(xml.querySelectorAll('item')).slice(0, 3);
 
       if (!items.length) {
         grid.innerHTML = '<div class="feed-error">No articles found right now. Try another category.</div>';
