@@ -438,15 +438,15 @@
 </footer>
 
 <script>
-  // ── SCIENCEDAILY RSS FEED via rss2json ──
+  // ── SCIENCEDAILY RSS FEED via allorigins CORS proxy ──
   const SD_BASE = 'https://www.sciencedaily.com/rss/health_medicine/';
   const FEEDS = {
-    womens_health:    SD_BASE + "women's_health.xml",
+    womens_health:     SD_BASE + "women%27s_health.xml",
     hormone_disorders: SD_BASE + 'hormone_disorders.xml',
-    fertility:        SD_BASE + 'fertility.xml',
-    diabetes:         SD_BASE + 'diabetes.xml',
-    obesity:          SD_BASE + 'obesity.xml',
-    gynecology:       SD_BASE + 'gynecology.xml',
+    fertility:         SD_BASE + 'fertility.xml',
+    diabetes:          SD_BASE + 'diabetes.xml',
+    obesity:           SD_BASE + 'obesity.xml',
+    gynecology:        SD_BASE + 'gynecology.xml',
   };
 
   async function switchFeed(key, btn) {
@@ -458,25 +458,75 @@
   async function loadFeed(key) {
     const grid = document.getElementById('feedGrid');
     grid.innerHTML = '<div class="feed-loading">⏳ Loading latest articles…</div>';
-    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEEDS[key]) + '&count=12';
+
+    // Try allorigins first, then corsproxy as fallback
+    const rssUrl = FEEDS[key];
+    const proxies = [
+      'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl),
+      'https://corsproxy.io/?' + encodeURIComponent(rssUrl),
+    ];
+
+    let xmlText = null;
+    for (const proxyUrl of proxies) {
+      try {
+        const res = await fetch(proxyUrl);
+        if (!res.ok) continue;
+        const data = await res.json().catch(() => null);
+        // allorigins wraps in { contents: "..." }
+        if (data && data.contents) { xmlText = data.contents; break; }
+        // corsproxy returns raw text — but we called .json() above; retry as text
+      } catch { /* try next proxy */ }
+
+      // Second attempt: raw text (for proxies that return XML directly)
+      try {
+        const res = await fetch(proxyUrl);
+        if (!res.ok) continue;
+        const text = await res.text();
+        if (text.includes('<rss') || text.includes('<feed')) { xmlText = text; break; }
+      } catch { /* try next proxy */ }
+    }
+
+    if (!xmlText) {
+      grid.innerHTML = `<div class="feed-error">
+        Could not load feed right now — ScienceDaily may be temporarily unavailable via proxy.
+        <br><br><a href="https://www.sciencedaily.com/news/health_medicine/" target="_blank" rel="noopener" style="color:var(--rose);font-weight:600;">Browse ScienceDaily directly →</a>
+      </div>`;
+      return;
+    }
+
     try {
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.status !== 'ok' || !data.items?.length) {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(xmlText, 'text/xml');
+      const items = Array.from(xml.querySelectorAll('item')).slice(0, 12);
+
+      if (!items.length) {
         grid.innerHTML = '<div class="feed-error">No articles found right now. Try another category.</div>';
         return;
       }
-      grid.innerHTML = data.items.map(item => {
-        const desc = (item.description || '').replace(/<[^>]+>/g, '').trim().slice(0, 160);
-        const date = item.pubDate ? new Date(item.pubDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '';
-        return `<a class="feed-card" href="${item.link}" target="_blank" rel="noopener">
+
+      grid.innerHTML = items.map(item => {
+        const title = item.querySelector('title')?.textContent?.trim() || 'Untitled';
+        // <link> in RSS is tricky — it's often a text node after the element
+        let link = '#';
+        const linkEl = item.querySelector('link');
+        if (linkEl) {
+          link = linkEl.textContent?.trim() || linkEl.nextSibling?.textContent?.trim() || '#';
+        }
+        const rawDesc = item.querySelector('description')?.textContent || '';
+        const desc = rawDesc.replace(/<[^>]+>/g, '').trim().slice(0, 160);
+        const pubDate = item.querySelector('pubDate')?.textContent;
+        const date = pubDate
+          ? new Date(pubDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })
+          : '';
+        return `<a class="feed-card" href="${link}" target="_blank" rel="noopener">
           <span class="feed-source-badge">ScienceDaily · ${date}</span>
-          <div class="feed-title">${item.title}</div>
+          <div class="feed-title">${title}</div>
           ${desc ? `<div class="feed-desc">${desc}…</div>` : ''}
         </a>`;
       }).join('');
-    } catch {
-      grid.innerHTML = '<div class="feed-error">Could not load feed. Please check your connection.</div>';
+
+    } catch (e) {
+      grid.innerHTML = '<div class="feed-error">Could not parse feed. Please try again later.</div>';
     }
   }
 
